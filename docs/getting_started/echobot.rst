@@ -301,27 +301,15 @@ to :meth:`slixmpp.clientxmpp.ClientXMPP`.
         # .. option parsing & echo bot configuration
 
         if xmpp.connect():
-            xmpp.process(block=True)
+            xmpp.process(forever=False)
         else:
             print('Unable to connect')
 
 To begin responding to messages, you'll see we called :meth:`slixmpp.basexmpp.BaseXMPP.process`
 which will start the event handling, send queue, and XML reader threads. It will also call
 the :meth:`slixmpp.plugins.base.BasePlugin.post_init` method on all registered plugins. By
-passing ``block=True`` to :meth:`slixmpp.basexmpp.BaseXMPP.process` we are running the
-main processing loop in the main thread of execution. The :meth:`slixmpp.basexmpp.BaseXMPP.process`
-call will not return until after Slixmpp disconnects. If you need to run the client in the background
-for another program, use ``block=False`` to spawn the processing loop in its own thread.
-
-.. note::
-
-    Before 1.0, controlling the blocking behaviour of :meth:`slixmpp.basexmpp.BaseXMPP.process` was
-    done via the ``threaded`` argument. This arrangement was a source of confusion because some users
-    interpreted that as controlling whether or not Slixmpp used threads at all, instead of how
-    the processing loop itself was spawned.
-
-    The statements ``xmpp.process(threaded=False)`` and ``xmpp.process(block=True)`` are equivalent.
-
+passing ``forever=False`` to :meth:`slixmpp.basexmpp.BaseXMPP.process` we are running the
+main processing loop only until the client disconnects.
 
 .. _echobot_complete:
 

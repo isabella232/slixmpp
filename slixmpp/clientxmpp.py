@@ -45,8 +45,8 @@ class ClientXMPP(BaseXMPP):
         xmpp = ClientXMPP('user@server.tld/resource', 'password')
         # ... Register plugins and event handlers ...
         xmpp.connect()
-        xmpp.process(block=False) # block=True will block the current
-                                  # thread. By default, block=False
+        xmpp.process(forever=False) # forever=True will continue running
+                                    # even after a disconnect.
 
     :param jid: The JID of the XMPP user account.
     :param password: The password for the XMPP user account.
@@ -195,7 +195,6 @@ class ClientXMPP(BaseXMPP):
             :attr:`~slixmpp.xmlstream.xmlstream.XMLStream.response_timeout`.
         :param callback: Optional reference to a stream handler function.
                          Will be executed when the roster is received.
-                         Implies ``block=False``.
         """
         current = self.client_roster[jid]
 
